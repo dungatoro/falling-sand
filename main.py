@@ -8,6 +8,8 @@ AIR  = (0,   0,   0, 255)
 WIDTH, HEIGHT = 300, 300
 RAD = 5
 
+FRAMERATE = 60
+
 def apply_gravity(surface):
     for y in range(HEIGHT-2, -1, -1): # start at one from the bottom
         for x in range(WIDTH):
@@ -25,6 +27,8 @@ def apply_gravity(surface):
                     surface.set_at((x, y), AIR)
 
 pygame.init()
+
+clock = pygame.time.Clock()
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 surface = pygame.Surface((WIDTH, HEIGHT))
@@ -48,3 +52,5 @@ while True:
 
     screen.blit(surface, (0,0))
     pygame.display.flip()
+
+    clock.tick(FRAMERATE)
