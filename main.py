@@ -12,8 +12,9 @@ RAD = 5
 FRAMERATE = 60
 THREAD_COUNT = 1
 
-def apply_gravity(surface,pixels):
-    for y in range(HEIGHT-2, -1, -1): # start at one from the bottom
+def apply_gravity(surface,pixels, bottomRow):
+    allSand = 1
+    for y in range(bottomRow-2, -1, -1): # start at one from the bottom
         x = 0
         while x < WIDTH:
             if pixels[x,y] == surface.map_rgb(SAND):
@@ -26,7 +27,10 @@ def apply_gravity(surface,pixels):
                 elif x < WIDTH-1 and pixels[x+1, y+1] == surface.map_rgb(AIR): # drop down-left if theres space
                     pixels[x+1,y+1] = surface.map_rgb(SAND)
                     pixels[x,y] = surface.map_rgb(AIR)
+            else:
+                allSand = 0 
             x += 1
+    return allSand
 
 pygame.init()
 
@@ -40,6 +44,8 @@ screen = pygame.display.get_surface()
 screen.blit(surface, (0,0))
 pygame.display.flip()
 
+bottomRow = HEIGHT
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -51,7 +57,7 @@ while True:
             pygame.draw.circle(surface, SAND, (x,y), RAD)
     pxarrray = pygame.PixelArray(surface)
 
-    apply_gravity(surface, pxarrray)
+    bottomRow -= apply_gravity(surface, pxarrray, bottomRow)
     del pxarrray
     screen.blit(surface, (0,0))
     pygame.display.flip()
