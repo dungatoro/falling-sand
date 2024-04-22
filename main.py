@@ -15,7 +15,7 @@ THREAD_COUNT = 1
 def apply_gravity(surface,pixels):
     for y in range(HEIGHT-2, -1, -1): # start at one from the bottom
         x = 0
-        while x < WIDTH-1:
+        while x < WIDTH:
             if pixels[x,y] == surface.map_rgb(SAND):
                 if pixels[x,y+1] == surface.map_rgb(AIR): # drop down if theres space
                     pixels[x,y+1] = surface.map_rgb(SAND) 
