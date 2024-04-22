@@ -12,7 +12,7 @@ RAD = 5
 FRAMERATE = 60
 THREAD_COUNT = 1
 
-def apply_gravity(surface,pixels,startx,endx):
+def apply_gravity(surface,pixels):
     for y in range(HEIGHT-2, -1, -1): # start at one from the bottom
         x = startx 
         while x < endx:
@@ -51,24 +51,7 @@ while True:
             pygame.draw.circle(surface, SAND, (x,y), RAD)
     pxarrray = pygame.PixelArray(surface)
 
-    threadList = []
-
-    # split the screen into THREAD_COUNT parts and apply gravity to each part appending each thread to the threadList
-    for i in range(THREAD_COUNT):
-        threadList.append(threading.Thread(target=apply_gravity, args=(surface, pxarrray, i*(WIDTH//THREAD_COUNT), (i+1)*(WIDTH//THREAD_COUNT))))
-
-    # start all even threads
-    for i in range(0, THREAD_COUNT, 2):
-        threadList[i].start()
-    # join all even threads
-    for i in range(0, THREAD_COUNT, 2):
-        threadList[i].join()
-    # start all odd threads
-    for i in range(1, THREAD_COUNT, 2):
-        threadList[i].start()
-    # join all odd threads
-    for i in range(1, THREAD_COUNT, 2):
-        threadList[i].join()
+    apply_gravity(surface, pxarrray)
     del pxarrray
     screen.blit(surface, (0,0))
     pygame.display.flip()
