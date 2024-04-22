@@ -55,11 +55,11 @@ while True:
     t2 = threading.Thread(target=apply_gravity, args=(surface, pxarrray,101,201))
     t3 = threading.Thread(target=apply_gravity, args=(surface, pxarrray,201,299))
     t1.start()
-    t2.start()
     t3.start()
     t1.join()
-    t2.join()
     t3.join()
+    t2.start()
+    t2.join()
     del pxarrray
     screen.blit(surface, (0,0))
     pygame.display.flip()
